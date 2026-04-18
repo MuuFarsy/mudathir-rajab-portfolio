@@ -31,12 +31,72 @@ html {
 body {
   @apply bg-bg text-text antialiased transition-colors duration-300;
   font-feature-settings: 'rlig' 1, 'calt' 1;
+  background-image:
+    radial-gradient(circle at top left, rgba(37, 99, 235, 0.08), transparent 22%),
+    radial-gradient(circle at 80% 10%, rgba(14, 165, 233, 0.08), transparent 20%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 45%);
+  min-width: 320px;
 }
 
 * {
   @apply border-border;
 }
 
+a,
+button,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a,
+button {
+  cursor: pointer;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
 ::selection {
   background: rgba(99, 102, 241, 0.25);
+}
+
+.interactive-card {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.interactive-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.16), transparent 35%, transparent 65%, rgba(255, 255, 255, 0.12));
+  opacity: 0;
+  transform: translateX(-18%) translateY(8%);
+  transition: opacity 220ms ease, transform 320ms ease;
+  z-index: -1;
+}
+
+.interactive-card:hover::before,
+.interactive-card:focus-visible::before {
+  opacity: 1;
+  transform: translateX(0) translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

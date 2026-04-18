@@ -14,7 +14,7 @@ export const personalData = {
 };
 
 export const stats = [
-  { value: '6+', label: 'Project Types Delivered' },
+  { value: '6+ In use projects', label: 'Project Types Delivered' },
   { value: 'Full-Stack', label: 'Frontend to Backend Delivery' },
   { value: 'API Ready', label: 'Integration and Workflow Focus' },
   { value: 'Responsive', label: 'Mobile, Tablet, Desktop' },
