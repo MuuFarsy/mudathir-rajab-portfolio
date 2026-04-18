@@ -107,9 +107,9 @@ export function PortfolioPage() {
       <main id="top">
         <section className="mx-auto grid max-w-7xl gap-16 px-4 pb-20 pt-14 sm:px-6 lg:grid-cols-[1.15fr_0.85fr] lg:px-8 lg:pb-28 lg:pt-20">
           <div className="flex flex-col justify-center">
-            <motion.span initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-5 inline-flex w-fit items-center gap-2 rounded-full border border-border bg-surface/80 px-4 py-2 text-sm text-muted shadow-soft backdrop-blur">
-              <BadgeCheck className="h-4 w-4 text-primary" /> Premium Portfolio Experience
-            </motion.span>
+            {/* <motion.span initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-5 inline-flex w-fit items-center gap-2 rounded-full border border-border bg-surface/80 px-4 py-2 text-sm text-muted shadow-soft backdrop-blur">
+              <BadgeCheck className="h-4 w-4 text-primary" /> 
+            </motion.span> */}
             <motion.h1 initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} className="max-w-3xl text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
               Building modern digital experiences that look strong and work reliably.
             </motion.h1>
@@ -120,7 +120,7 @@ export function PortfolioPage() {
               <a href="#projects" className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3.5 font-semibold text-white shadow-glow transition hover:-translate-y-0.5">View Projects <ArrowRight className="h-4 w-4" /></a>
               <a href="#contact" className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-6 py-3.5 font-semibold text-text transition hover:-translate-y-0.5">Hire Me</a>
               <a href={personalData.cvPath} download className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-6 py-3.5 font-semibold text-text transition hover:-translate-y-0.5"><Download className="h-4 w-4" /> Download CV</a>
-              <a href="/mr-logo.svg" download className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-6 py-3.5 font-semibold text-text transition hover:-translate-y-0.5"><Download className="h-4 w-4" /> Download Logo</a>
+              {/* <a href="/mr-logo.svg" download className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-6 py-3.5 font-semibold text-text transition hover:-translate-y-0.5"><Download className="h-4 w-4" /> Download Logo</a> */}
             </motion.div>
             <div className="mt-12 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
               {stats.map((item, index) => (
@@ -144,10 +144,10 @@ export function PortfolioPage() {
             <div className="relative overflow-hidden rounded-[2rem] border border-border bg-surface/80 p-5 shadow-glow backdrop-blur">
               <img src={personalData.profileImagePath} alt="Profile placeholder" className="h-auto w-full rounded-[1.5rem] border border-border object-cover" />
               <div className="mt-5 rounded-[1.5rem] border border-border bg-bg/60 p-5">
-                <div className="text-sm font-semibold uppercase tracking-[0.18em] text-primary">Profile Area</div>
-                <p className="mt-3 text-sm leading-7 text-muted">
+                <div className="text-sm font-semibold uppercase tracking-[0.18em] text-primary">Let's work together</div>
+                {/* <p className="mt-3 text-sm leading-7 text-muted">
                   Replace this placeholder image with your real professional portrait inside the public folder. The layout is already prepared for a strong personal brand presentation.
-                </p>
+                </p> */}
               </div>
             </div>
           </motion.div>
