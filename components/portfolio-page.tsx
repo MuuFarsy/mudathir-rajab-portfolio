@@ -187,7 +187,7 @@ export function PortfolioPage() {
         <section className="mx-auto grid max-w-7xl gap-12 px-4 pb-16 pt-10 sm:px-6 sm:pb-20 sm:pt-14 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16 lg:px-8 lg:pb-28 lg:pt-20">
           <div className="flex flex-col justify-center">
             <motion.span initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-5 inline-flex w-fit items-center gap-2 rounded-full border border-border bg-surface/80 px-4 py-2 text-xs uppercase tracking-[0.18em] text-muted shadow-soft backdrop-blur sm:text-sm">
-              <BadgeCheck className="h-4 w-4 text-primary" /> SOFTWARE DEVELOPERE
+              <BadgeCheck className="h-4 w-4 text-primary" /> SOFTWARE DEVELOPER
             </motion.span>
             <motion.h1 initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} className="max-w-3xl text-balance text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
               Building modern digital experiences that look strong and work reliably.
@@ -376,7 +376,7 @@ export function PortfolioPage() {
           </div>
         </section>
 
-        <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+        {/* <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
           <div className="grid gap-8 rounded-[2rem] border border-border bg-surface/90 p-6 shadow-glow sm:p-8 lg:grid-cols-[0.9fr_1.1fr] lg:p-10">
             <div>
               <p className="text-sm font-semibold uppercase tracking-[0.22em] text-primary">Branding & Logo</p>
@@ -392,7 +392,7 @@ export function PortfolioPage() {
               <LogoMark className="h-36 w-36 sm:h-44 sm:w-44" />
             </div>
           </div>
-        </section>
+        </section> */}
 
         <section id="contact" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
           <div className="mb-10 max-w-3xl">
