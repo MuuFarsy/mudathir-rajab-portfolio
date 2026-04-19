@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   ArrowRight,
@@ -38,6 +38,7 @@ const navItems = [
 const serviceIcons = [BriefcaseBusiness, Workflow, ServerCog, Palette, ShieldCheck, MonitorSmartphone];
 
 export function PortfolioPage() {
+  const headerRef = useRef<HTMLElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState('All');
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
@@ -63,6 +64,26 @@ export function PortfolioPage() {
     };
   }, [menuOpen]);
 
+  useEffect(() => {
+    const header = headerRef.current;
+    if (!header) return;
+
+    const updateHeaderHeight = () => {
+      document.documentElement.style.setProperty('--site-header-height', `${header.offsetHeight}px`);
+    };
+
+    updateHeaderHeight();
+
+    const resizeObserver = new ResizeObserver(updateHeaderHeight);
+    resizeObserver.observe(header);
+    window.addEventListener('resize', updateHeaderHeight);
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener('resize', updateHeaderHeight);
+    };
+  }, []);
+
   return (
     <div className="relative overflow-hidden">
       <div
@@ -72,7 +93,7 @@ export function PortfolioPage() {
       <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[900px] bg-hero-grid bg-hero-grid opacity-90" />
       <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_right,rgba(37,99,235,0.18),transparent_24%),radial-gradient(circle_at_20%_20%,rgba(14,165,233,0.12),transparent_22%),linear-gradient(180deg,rgba(255,255,255,0.02),transparent_50%)] dark:bg-[radial-gradient(circle_at_top_right,rgba(96,165,250,0.24),transparent_24%),radial-gradient(circle_at_20%_20%,rgba(34,211,238,0.12),transparent_22%),linear-gradient(180deg,rgba(255,255,255,0.03),transparent_50%)]" />
 
-      <header className="sticky top-0 z-50 border-b border-border/60 bg-bg/70 backdrop-blur-2xl">
+      <header ref={headerRef} className="fixed inset-x-0 top-0 z-50 border-b border-border/60 bg-bg/70 backdrop-blur-2xl" style={{ paddingTop: 'env(safe-area-inset-top)' }}>
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 sm:py-4 lg:px-8">
           <a href="#top" className="flex items-center gap-3">
             <LogoMark className="h-10 w-10 sm:h-12 sm:w-12" />
@@ -183,7 +204,7 @@ export function PortfolioPage() {
         )}
       </AnimatePresence>
 
-      <main id="top">
+      <main id="top" className="pt-[calc(var(--site-header-height,5rem)+0.5rem)]">
         <section className="mx-auto grid max-w-7xl gap-12 px-4 pb-16 pt-10 sm:px-6 sm:pb-20 sm:pt-14 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16 lg:px-8 lg:pb-28 lg:pt-20">
           <div className="flex flex-col justify-center">
             <motion.span initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-5 inline-flex w-fit items-center gap-2 rounded-full border border-border bg-surface/80 px-4 py-2 text-xs uppercase tracking-[0.18em] text-muted shadow-soft backdrop-blur sm:text-sm">

@@ -26,6 +26,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--site-header-height, 5rem) + 1rem);
 }
 
 body {
@@ -36,6 +37,10 @@ body {
     radial-gradient(circle at 80% 10%, rgba(14, 165, 233, 0.08), transparent 20%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 45%);
   min-width: 320px;
+}
+
+main section[id] {
+  scroll-margin-top: calc(var(--site-header-height, 5rem) + 1rem);
 }
 
 * {
