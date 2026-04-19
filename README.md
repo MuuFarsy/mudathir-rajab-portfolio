@@ -48,22 +48,26 @@ http://localhost:3000
 Set these in `.env.local`:
 
 ```env
-RESEND_API_KEY=your_resend_api_key_here
-PORTFOLIO_RECEIVER_EMAIL=your-real-email@example.com
+RESEND_API_KEY=re_your_resend_api_key_here
 PORTFOLIO_SENDER_EMAIL=Portfolio Contact <onboarding@resend.dev>
+PORTFOLIO_RECEIVER_EMAIL=mudathirrajab69@gmail.com
 ```
 
 ### What each variable does
 
 - `RESEND_API_KEY`: your Resend API key
-- `PORTFOLIO_RECEIVER_EMAIL`: the email address where contact form messages should arrive
 - `PORTFOLIO_SENDER_EMAIL`: verified sender identity used by Resend
+- `PORTFOLIO_RECEIVER_EMAIL`: inbox that should receive contact form messages
+
+The contact form sends all messages to `PORTFOLIO_RECEIVER_EMAIL`.
+
+For local testing, `onboarding@resend.dev` is fine as the sender, but Resend only allows the `resend.dev` testing domain to send to your own email address. To deliver to any other recipient, verify your own domain in Resend and replace `PORTFOLIO_SENDER_EMAIL` with a sender on that verified domain.
 
 ## Deploy to Vercel
 
 1. Push this project to GitHub.
 2. Import the repository into Vercel.
-3. Add the same environment variables in Vercel project settings.
+3. Add `RESEND_API_KEY`, `PORTFOLIO_SENDER_EMAIL`, and `PORTFOLIO_RECEIVER_EMAIL` in Vercel project settings.
 4. Deploy.
 
 ## Where to edit your personal details
@@ -149,3 +153,4 @@ README.md
 - The contact form already calls `/api/contact`.
 - Replace placeholder demo links, profile image, CV, and contact details with your real information.
 - For Resend production use, verify your sending domain and update `PORTFOLIO_SENDER_EMAIL`.
+- Keep `PORTFOLIO_RECEIVER_EMAIL` set to the personal inbox where you want portfolio inquiries delivered.
