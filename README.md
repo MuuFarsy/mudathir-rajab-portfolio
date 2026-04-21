@@ -1,6 +1,6 @@
 # Mudathir Rajab Portfolio
 
-A production-ready personal portfolio website built with Next.js, TypeScript, Tailwind CSS, Framer Motion, lucide-react, and a real contact email API using Resend.
+A production-ready personal portfolio website built with Next.js, TypeScript, Tailwind CSS, Framer Motion, lucide-react, and a real contact email API using Nodemailer.
 
 ## Features
 
@@ -48,26 +48,34 @@ http://localhost:3000
 Set these in `.env.local`:
 
 ```env
-RESEND_API_KEY=re_your_resend_api_key_here
-PORTFOLIO_SENDER_EMAIL=Portfolio Contact <onboarding@resend.dev>
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=465
+SMTP_SECURE=true
+SMTP_USER=example@gmail.com
+SMTP_PASS=your_app_password_here
+PORTFOLIO_SENDER_EMAIL=Portfolio Contact <example@gmail.com>
 PORTFOLIO_RECEIVER_EMAIL=mudathirrajab69@gmail.com
 ```
 
 ### What each variable does
 
-- `RESEND_API_KEY`: your Resend API key
-- `PORTFOLIO_SENDER_EMAIL`: verified sender identity used by Resend
+- `SMTP_HOST`: your SMTP server host
+- `SMTP_PORT`: your SMTP server port
+- `SMTP_SECURE`: `true` for SSL/TLS transports such as port `465`, otherwise `false`
+- `SMTP_USER`: the SMTP login username
+- `SMTP_PASS`: the SMTP login password or app password
+- `PORTFOLIO_SENDER_EMAIL`: sender address shown on outgoing emails
 - `PORTFOLIO_RECEIVER_EMAIL`: inbox that should receive contact form messages
 
 The contact form sends all messages to `PORTFOLIO_RECEIVER_EMAIL`.
 
-For local testing, `onboarding@resend.dev` is fine as the sender, but Resend only allows the `resend.dev` testing domain to send to your own email address. To deliver to any other recipient, verify your own domain in Resend and replace `PORTFOLIO_SENDER_EMAIL` with a sender on that verified domain.
+For Gmail SMTP, use `smtp.gmail.com` with port `465`, set `SMTP_SECURE=true`, and generate a Google App Password for `SMTP_PASS`. Regular Gmail account passwords will not work.
 
 ## Deploy to Vercel
 
 1. Push this project to GitHub.
 2. Import the repository into Vercel.
-3. Add `RESEND_API_KEY`, `PORTFOLIO_SENDER_EMAIL`, and `PORTFOLIO_RECEIVER_EMAIL` in Vercel project settings.
+3. Add `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASS`, `PORTFOLIO_SENDER_EMAIL`, and `PORTFOLIO_RECEIVER_EMAIL` in Vercel project settings.
 4. Deploy.
 
 ## Where to edit your personal details
@@ -152,5 +160,5 @@ README.md
 
 - The contact form already calls `/api/contact`.
 - Replace placeholder demo links, profile image, CV, and contact details with your real information.
-- For Resend production use, verify your sending domain and update `PORTFOLIO_SENDER_EMAIL`.
+- For Gmail SMTP, enable 2-Step Verification and create an App Password for `SMTP_PASS`.
 - Keep `PORTFOLIO_RECEIVER_EMAIL` set to the personal inbox where you want portfolio inquiries delivered.

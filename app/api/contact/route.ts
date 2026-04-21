@@ -1,14 +1,42 @@
 import { NextResponse } from 'next/server';
-import { Resend } from 'resend';
 
-const resendApiKey = process.env.RESEND_API_KEY;
+const nodemailer = require('nodemailer') as {
+  createTransport: (options: {
+    host: string;
+    port: number;
+    secure: boolean;
+    auth: {
+      user: string;
+      pass: string;
+    };
+  }) => {
+    sendMail: (options: {
+      from: string;
+      to: string;
+      replyTo: string;
+      subject: string;
+      text: string;
+      html: string;
+    }) => Promise<{ messageId?: string }>;
+  };
+};
+
+const smtpHost = process.env.SMTP_HOST;
+const smtpPort = Number(process.env.SMTP_PORT || 0);
+const smtpSecure = process.env.SMTP_SECURE === 'true';
+const smtpUser = process.env.SMTP_USER;
+const smtpPass = process.env.SMTP_PASS;
 const senderEmail = process.env.PORTFOLIO_SENDER_EMAIL;
 const receiverEmail = process.env.PORTFOLIO_RECEIVER_EMAIL;
 
-const resend = resendApiKey ? new Resend(resendApiKey) : null;
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export const runtime = 'nodejs';
+
+type MailConfig = {
+  senderEmail: string;
+  receiverEmail: string;
+};
 
 function escapeHtml(value: string) {
   return value
@@ -17,6 +45,33 @@ function escapeHtml(value: string) {
     .replaceAll('>', '&gt;')
     .replaceAll('"', '&quot;')
     .replaceAll("'", '&#39;');
+}
+
+function createTransporter() {
+  if (!smtpHost || !smtpPort || !smtpUser || !smtpPass || !senderEmail || !receiverEmail) {
+    return null;
+  }
+
+  return nodemailer.createTransport({
+    host: smtpHost,
+    port: smtpPort,
+    secure: smtpSecure,
+    auth: {
+      user: smtpUser,
+      pass: smtpPass,
+    },
+  });
+}
+
+function getMailConfig(): MailConfig | null {
+  if (!senderEmail || !receiverEmail) {
+    return null;
+  }
+
+  return {
+    senderEmail,
+    receiverEmail,
+  };
 }
 
 export async function POST(request: Request) {
@@ -37,11 +92,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Please enter a valid email address.' }, { status: 400 });
     }
 
-    if (!resend || !senderEmail || !receiverEmail) {
+    const transporter = createTransporter();
+    const mailConfig = getMailConfig();
+
+    if (!transporter || !mailConfig) {
       return NextResponse.json(
         {
           error:
-            'Email service is not configured yet. Add RESEND_API_KEY, PORTFOLIO_SENDER_EMAIL, and PORTFOLIO_RECEIVER_EMAIL to your environment variables.',
+            'Email service is not configured yet. Add SMTP_HOST, SMTP_PORT, SMTP_SECURE, SMTP_USER, SMTP_PASS, PORTFOLIO_SENDER_EMAIL, and PORTFOLIO_RECEIVER_EMAIL to your environment variables.',
         },
         { status: 500 }
       );
@@ -54,9 +112,9 @@ export async function POST(request: Request) {
     const safeSubject = escapeHtml(subject);
     const safeMessage = escapeHtml(message);
 
-    const { data, error } = await resend.emails.send({
-      from: senderEmail,
-      to: [receiverEmail],
+    const info = await transporter.sendMail({
+      from: mailConfig.senderEmail,
+      to: mailConfig.receiverEmail,
       replyTo: email,
       subject: `Portfolio Contact: ${subject}`,
       text: [
@@ -86,12 +144,13 @@ export async function POST(request: Request) {
       `,
     });
 
-    if (error) {
-      return NextResponse.json({ error: error.message || 'Unable to send the message right now.' }, { status: 502 });
-    }
-
-    return NextResponse.json({ success: true, id: data?.id ?? null });
-  } catch {
-    return NextResponse.json({ error: 'Unable to send the message right now.' }, { status: 500 });
+    return NextResponse.json({ success: true, id: info.messageId ?? null });
+  } catch (error) {
+    return NextResponse.json(
+      {
+        error: error instanceof Error ? error.message : 'Unable to send the message right now.',
+      },
+      { status: 500 }
+    );
   }
 }
