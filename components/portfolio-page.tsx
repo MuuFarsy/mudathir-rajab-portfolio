@@ -454,7 +454,7 @@ export function PortfolioPage() {
               <div>{personalData.title}</div>
             </div>
           </div>
-          <p className="max-w-2xl">Built as a professional portfolio with responsive layouts, theme switching, animated sections, and a working contact API.</p>
+          <p className="max-w-2xl">Copyright © 2026 Mudathir Rajab. All rights reserved.</p>
         </div>
       </footer>
     </div>
