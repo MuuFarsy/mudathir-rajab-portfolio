@@ -375,7 +375,16 @@ export function PortfolioPage() {
                 </div>
                 <div className="mt-6 flex flex-col gap-3 text-sm font-medium sm:flex-row sm:items-center sm:gap-4">
                   <a href="#contact" className="inline-flex items-center gap-2 text-primary">Discuss Project <ArrowRight className="h-4 w-4" /></a>
-                  <a href="#" className="inline-flex items-center gap-2 text-muted">Demo Link <ExternalLink className="h-4 w-4" /></a>
+                  {project.demoUrl ? (
+                    <a
+                      href={project.demoUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-2 text-muted"
+                    >
+                      Demo Link <ExternalLink className="h-4 w-4" />
+                    </a>
+                  ) : null}
                 </div>
               </div>
             ))}

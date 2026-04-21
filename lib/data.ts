@@ -4,7 +4,7 @@ export const personalData = {
   email: 'mudathirrajab69@gmail.com',
   phone: '+255 621 107 728',
   github: 'https://github.com/MuuFarsy',
-  linkedin: 'https://linkedin.com/in/Mudathir',
+  linkedin: 'https://www.linkedin.com/in/mudathir-rajab-1562a7342/',
   cvPath: '/Mudathir-CV.pdf',
   profileImagePath: '/Mudathir.jpeg',
   intro:
@@ -90,6 +90,7 @@ export const projects = [
     description:
       'A role-based healthcare platform designed to support maternal care workflows, appointments, health education, and structured digital access for users and providers.',
     tech: ['PHP', 'MySQL', 'Bootstrap', 'JavaScript'],
+    demoUrl: '',
   },
   {
     category: 'Management System',
@@ -97,6 +98,7 @@ export const projects = [
     description:
       'A secure web-based system for handling player records, technical staff data, role permissions, status updates, and operational team workflows.',
     tech: ['PHP', 'MySQL', 'Role-Based Access', 'Bootstrap'],
+    demoUrl: '',
   },
   {
     category: 'Backend API',
@@ -104,6 +106,7 @@ export const projects = [
     description:
       'Backend API work focused on structured activity delivery, multilingual handling, authentication flow, and scalable platform architecture.',
     tech: ['NestJS', 'Node.js', 'Swagger', 'PostgreSQL'],
+    demoUrl: 'https://opschool.tie.go.tz/',
   },
   {
     category: 'Corporate Web',
@@ -111,6 +114,7 @@ export const projects = [
     description:
       'A professional redesign approach for enterprise-facing web presence, including stronger branding, premium sections, animations, and improved service presentation.',
     tech: ['Next.js', 'Tailwind CSS', 'Branding', 'Responsive UI'],
+    demoUrl: 'https://zpdc.go.tz/',
   },
   {
     category: 'Tour Experience',
@@ -118,6 +122,7 @@ export const projects = [
     description:
       'A polished tour and service presentation with booking flows, interactive UI elements, responsive modals, and stronger conversion-focused design.',
     tech: ['PHP', 'Bootstrap', 'PHPMailer', 'UX Design'],
+    demoUrl: '',
   },
   {
     category: 'Brand Identity',
@@ -125,6 +130,7 @@ export const projects = [
     description:
       'A premium personal brand website designed to communicate expertise, showcase work, strengthen trust, and enable direct client inquiries.',
     tech: ['Next.js', 'TypeScript', 'Framer Motion', 'Resend'],
+    demoUrl: 'https://mudathir-rajab.vercel.app/',
   },
 ];
 
