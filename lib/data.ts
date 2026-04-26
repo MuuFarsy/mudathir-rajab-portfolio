@@ -6,7 +6,7 @@ export const personalData = {
   github: 'https://github.com/MuuFarsy',
   linkedin: 'https://www.linkedin.com/in/mudathir-rajab-1562a7342/',
   cvPath: '/Mudathir-CV.pdf',
-  profileImagePath: '/Mudathir.jpeg',
+  profileImagePath: '/mudathirofice.png',
   intro:
     'I build professional websites, scalable systems, robust APIs, and polished user experiences that help organizations operate better and present themselves with confidence.',
   about:
