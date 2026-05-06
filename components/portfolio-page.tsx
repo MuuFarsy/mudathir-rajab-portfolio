@@ -465,6 +465,7 @@ function ContactForm() {
   const [form, setForm] = useState({
     fullName: '',
     email: '',
+    phone: '',
     company: '',
     budget: '',
     subject: '',
@@ -472,6 +473,15 @@ function ContactForm() {
   });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [feedback, setFeedback] = useState('');
+  const feedbackTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (feedbackTimeoutRef.current) {
+        clearTimeout(feedbackTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setForm((prev) => ({ ...prev, [event.target.name]: event.target.value }));
@@ -479,6 +489,11 @@ function ContactForm() {
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (feedbackTimeoutRef.current) {
+      clearTimeout(feedbackTimeoutRef.current);
+      feedbackTimeoutRef.current = null;
+    }
+
     setStatus('loading');
     setFeedback('Sending your message...');
 
@@ -497,7 +512,12 @@ function ContactForm() {
 
       setStatus('success');
       setFeedback('Your message was sent successfully. I will get back to you soon.');
-      setForm({ fullName: '', email: '', company: '', budget: '', subject: '', message: '' });
+      setForm({ fullName: '', email: '', phone: '', company: '', budget: '', subject: '', message: '' });
+      feedbackTimeoutRef.current = setTimeout(() => {
+        setStatus('idle');
+        setFeedback('');
+        feedbackTimeoutRef.current = null;
+      }, 2500);
     } catch (error) {
       setStatus('error');
       setFeedback(error instanceof Error ? error.message : 'Unable to send your message right now.');
@@ -509,8 +529,9 @@ function ContactForm() {
       <div className="grid gap-5 md:grid-cols-2">
         <FormField label="Full Name" name="fullName" value={form.fullName} onChange={onChange} placeholder="Your full name" required />
         <FormField label="Email Address" name="email" type="email" value={form.email} onChange={onChange} placeholder="you@example.com" required />
+        <FormField label="Phone Number" name="phone" type="tel" value={form.phone} onChange={onChange} placeholder="+255 700 000 000" />
         <FormField label="Company or Brand" name="company" value={form.company} onChange={onChange} placeholder="Your company or brand" />
-        <div>
+        <div className="md:col-span-2">
           <label htmlFor="budget" className="mb-2 block text-sm font-medium text-text">Budget Range</label>
           <select id="budget" name="budget" value={form.budget} onChange={onChange} className="w-full rounded-2xl border border-border bg-bg/80 px-4 py-3 text-sm outline-none transition focus:border-primary" required>
             <option value="">Select budget range</option>
