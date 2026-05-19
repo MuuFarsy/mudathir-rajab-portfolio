@@ -42,6 +42,7 @@ export function PortfolioPage() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState('All');
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
+  const [showLanding, setShowLanding] = useState(true);
 
   const filteredProjects = useMemo(() => {
     if (activeFilter === 'All') return projects;
@@ -58,11 +59,23 @@ export function PortfolioPage() {
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : '';
+    document.body.style.overflow = menuOpen || showLanding ? 'hidden' : '';
     return () => {
       document.body.style.overflow = '';
     };
-  }, [menuOpen]);
+  }, [menuOpen, showLanding]);
+
+  useEffect(() => {
+    if (!showLanding) return;
+
+    const timer = window.setTimeout(() => {
+      setShowLanding(false);
+      setMenuOpen(false);
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    }, 2200);
+
+    return () => window.clearTimeout(timer);
+  }, [showLanding]);
 
   useEffect(() => {
     const header = headerRef.current;
@@ -86,6 +99,47 @@ export function PortfolioPage() {
 
   return (
     <div className="relative overflow-hidden">
+      <AnimatePresence>
+        {showLanding && (
+          <motion.section
+            className="fixed inset-0 z-[120] flex min-h-screen items-center justify-center overflow-hidden bg-bg px-4"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0, scale: 1.02 }}
+            transition={{ duration: 0.45, ease: 'easeInOut' }}
+          >
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(37,99,235,0.16),transparent_28%),radial-gradient(circle_at_20%_70%,rgba(99,102,241,0.14),transparent_20%),radial-gradient(circle_at_80%_30%,rgba(14,165,233,0.12),transparent_20%)]" />
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary to-transparent opacity-70" />
+
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, ease: 'easeOut' }}
+              className="relative w-full max-w-2xl rounded-[2.25rem] border border-border/70 bg-surface/75 px-6 py-14 text-center shadow-glow backdrop-blur-2xl sm:px-10 sm:py-16"
+            >
+              <div className="absolute left-1/2 top-10 h-36 w-36 -translate-x-1/2 rounded-full bg-primary/15 blur-3xl" />
+              <div className="relative flex flex-col items-center">
+                <LogoMark className="h-28 w-28 sm:h-32 sm:w-32" />
+                <p className="mt-8 text-xs font-semibold uppercase tracking-[0.28em] text-muted">
+                  Welcome
+                </p>
+                <h1 className="mt-4 text-balance text-4xl font-bold tracking-[0.03em] sm:text-5xl">
+                  Lets work together
+                </h1>
+                <p className="mt-4 max-w-xl text-sm leading-7 text-muted sm:text-base">
+                  A welcoming screen before entering the full portfolio experience.
+                </p>
+
+                <div className="mt-10 w-full max-w-lg">
+                  <div className="landing-loader rounded-full" aria-hidden="true">
+                    <span className="landing-loader-bar" />
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </motion.section>
+        )}
+      </AnimatePresence>
+
       <div
         className="pointer-events-none fixed left-0 top-0 z-10 hidden h-40 w-40 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/20 blur-3xl transition-transform duration-150 ease-out md:block"
         style={{ transform: `translate(${cursorPosition.x - 80}px, ${cursorPosition.y - 80}px)` }}
