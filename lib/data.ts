@@ -14,7 +14,7 @@ export const personalData = {
 };
 
 export const stats = [
-  { value: '6+ In use projects', label: 'Project Types Delivered' },
+  { value: '9+ Built Projects', label: 'Systems and Experiences Delivered' },
   { value: 'Full-Stack', label: 'Frontend to Backend Delivery' },
   { value: 'API Ready', label: 'Integration and Workflow Focus' },
   { value: 'Responsive', label: 'Mobile, Tablet, Desktop' },
@@ -69,6 +69,9 @@ export const skills = [
   'JavaScript',
   'PHP',
   'Python',
+  'Rust',
+  'Laravel',
+  'Vue.js',
   'NestJS',
   'Node.js',
   'MySQL',
@@ -85,12 +88,44 @@ export const skills = [
 
 export const projects = [
   {
+    category: 'Business System',
+    title: 'KinaraPOS',
+    description:
+      'A modern point-of-sale and business management system that brings products, stock, sales, profit reporting, and AI-assisted insights into one clear workspace.',
+    tech: ['Point of Sale', 'Inventory', 'Reporting', 'AI Assistant'],
+    demoUrl: 'https://kinarapos.space/',
+    previewImage: '/projects/kinarapos.png',
+    previewAlt: 'KinaraPOS homepage showing its point-of-sale dashboard preview',
+  },
+  {
+    category: 'Event Platform',
+    title: 'HarusiCard',
+    description:
+      'A luxury digital wedding invitation platform for creating animated invitation experiences, sharing personal guest links, tracking RSVPs, and managing door check-in codes.',
+    tech: ['Digital Invitations', 'RSVP', 'Guest Links', 'Check-in Codes'],
+    demoUrl: 'https://www.harusicard.com/',
+    previewImage: '/projects/harusicard.png',
+    previewAlt: 'HarusiCard homepage showing a luxury digital wedding invitation',
+  },
+  {
+    category: 'Food Marketplace',
+    title: 'Tonge',
+    description:
+      'A local food discovery and ordering platform that helps customers explore nearby kitchens, browse meals, receive delivery quotes, and pay securely online.',
+    tech: ['Next.js', 'Food Marketplace', 'Delivery', 'Online Payments'],
+    demoUrl: 'https://tongeapp.site/',
+    previewImage: '/projects/tonge.png',
+    previewAlt: 'Tonge homepage showing its local food discovery experience',
+  },
+  {
     category: 'Health System',
     title: 'Maternal Health System',
     description:
       'A role-based healthcare platform designed to support maternal care workflows, appointments, health education, and structured digital access for users and providers.',
     tech: ['PHP', 'MySQL', 'Bootstrap', 'JavaScript'],
     demoUrl: '',
+    previewImage: '',
+    previewAlt: '',
   },
   {
     category: 'Management System',
@@ -99,6 +134,8 @@ export const projects = [
       'A secure web-based system for handling player records, technical staff data, role permissions, status updates, and operational team workflows.',
     tech: ['PHP', 'MySQL', 'Role-Based Access', 'Bootstrap'],
     demoUrl: '',
+    previewImage: '',
+    previewAlt: '',
   },
   {
     category: 'Backend API',
@@ -107,6 +144,8 @@ export const projects = [
       'Backend API work focused on structured activity delivery, multilingual handling, authentication flow, and scalable platform architecture.',
     tech: ['NestJS', 'Node.js', 'Swagger', 'PostgreSQL'],
     demoUrl: 'https://opschool.tie.go.tz/',
+    previewImage: '/projects/open-school.png',
+    previewAlt: 'Open School Platform homepage showing its digital learning experience',
   },
   {
     category: 'Corporate Web',
@@ -115,6 +154,8 @@ export const projects = [
       'A professional redesign approach for enterprise-facing web presence, including stronger branding, premium sections, animations, and improved service presentation.',
     tech: ['Next.js', 'Tailwind CSS', 'Branding', 'Responsive UI'],
     demoUrl: 'https://zpdc.go.tz/',
+    previewImage: '/projects/zpdc.png',
+    previewAlt: 'ZPDC corporate website homepage preview',
   },
   {
     category: 'Tour Experience',
@@ -123,6 +164,8 @@ export const projects = [
       'A polished tour and service presentation with booking flows, interactive UI elements, responsive modals, and stronger conversion-focused design.',
     tech: ['PHP', 'Bootstrap', 'PHPMailer', 'UX Design'],
     demoUrl: '',
+    previewImage: '',
+    previewAlt: '',
   },
   {
     category: 'Brand Identity',
@@ -131,6 +174,8 @@ export const projects = [
       'A premium personal brand website designed to communicate expertise, showcase work, strengthen trust, and enable direct client inquiries.',
     tech: ['Next.js', 'TypeScript', 'Framer Motion', 'Resend'],
     demoUrl: 'https://mudathir-rajab.vercel.app/',
+    previewImage: '/projects/personal-portfolio.png',
+    previewAlt: 'Mudathir Rajab personal portfolio homepage preview',
   },
 ];
 
@@ -142,4 +187,15 @@ export const processSteps = [
   'Deployment and support',
 ];
 
-export const filters = ['All', 'Health System', 'Management System', 'Backend API', 'Corporate Web', 'Tour Experience', 'Brand Identity'];
+export const filters = [
+  'All',
+  'Business System',
+  'Event Platform',
+  'Food Marketplace',
+  'Health System',
+  'Management System',
+  'Backend API',
+  'Corporate Web',
+  'Tour Experience',
+  'Brand Identity',
+];

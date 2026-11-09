@@ -1,7 +1,8 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { type CSSProperties, useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import Image from 'next/image';
 import {
   ArrowRight,
   BadgeCheck,
@@ -22,7 +23,7 @@ import {
   Workflow,
   X,
 } from 'lucide-react';
-import { filters, personalData, processSteps, projects, services, skills, stats, strengths } from '@/lib/data';
+import { filters, personalData, processSteps, projects, services, stats, strengths } from '@/lib/data';
 import { cn } from '@/lib/utils';
 import { LogoMark } from './logo-mark';
 import { ThemeToggle } from './theme-toggle';
@@ -37,6 +38,46 @@ const navItems = [
 
 const serviceIcons = [BriefcaseBusiness, Workflow, ServerCog, Palette, ShieldCheck, MonitorSmartphone];
 
+const technologyLogos = [
+  { name: 'React', src: '/tech/react.svg' },
+  { name: 'Next.js', src: '/tech/nextjs.svg' },
+  { name: 'TypeScript', src: '/tech/typescript.svg' },
+  { name: 'JavaScript', src: '/tech/javascript.svg' },
+  { name: 'PHP', src: '/tech/php.svg' },
+  { name: 'Python', src: '/tech/python.svg' },
+  { name: 'NestJS', src: '/tech/nestjs.svg' },
+  { name: 'Node.js', src: '/tech/nodejs.svg' },
+  { name: 'MySQL', src: '/tech/mysql.svg' },
+  { name: 'PostgreSQL', src: '/tech/postgresql.svg' },
+  { name: 'MongoDB', src: '/tech/mongodb.svg' },
+  { name: 'Bootstrap', src: '/tech/bootstrap.svg' },
+  { name: 'Tailwind CSS', src: '/tech/tailwindcss.svg' },
+  { name: 'Swagger', src: '/tech/swagger.svg' },
+  { name: 'Rust', src: '/tech/rust.svg' },
+  { name: 'Laravel', src: '/tech/laravel.svg' },
+  { name: 'Vue.js', src: '/tech/vuejs.svg' },
+];
+
+const codeSnippets = [
+  { language: 'TypeScript', code: 'const product = await build(idea);', left: '-2%', top: '10%', width: '23rem', rotate: '-2deg', accent: '#3178c6', delay: '-1.2s', duration: '7.2s', float: '10s', opacity: 0.42 },
+  { language: 'Python', code: 'def create_future(): return "impact"', left: '76%', top: '8%', width: '25rem', rotate: '1.5deg', accent: '#3776ab', delay: '-4.4s', duration: '8.2s', float: '11s', opacity: 0.4 },
+  { language: 'React', code: 'return <Experience polished responsive />;', left: '36%', top: '4%', width: '25rem', rotate: '0.7deg', accent: '#0ea5e9', delay: '-2.7s', duration: '7.8s', float: '12s', opacity: 0.34 },
+  { language: 'Laravel', code: 'Route::get("/ideas", BuildProduct::class);', left: '7%', top: '26%', width: '26rem', rotate: '1.1deg', accent: '#ff2d20', delay: '-5.8s', duration: '8.6s', float: '13s', opacity: 0.38 },
+  { language: 'Vue.js', code: 'const launch = computed(() => ready.value);', left: '72%', top: '26%', width: '25rem', rotate: '-1.2deg', accent: '#42b883', delay: '-3.5s', duration: '7.5s', float: '9s', opacity: 0.4 },
+  { language: 'JavaScript', code: 'ideas.map((idea) => ship(idea));', left: '51%', top: '19%', width: '23rem', rotate: '-1deg', accent: '#d6b600', delay: '-0.6s', duration: '6.8s', float: '11s', opacity: 0.3 },
+  { language: 'PHP', code: '$system->deploy(["secure" => true]);', left: '-4%', top: '44%', width: '24rem', rotate: '-1.5deg', accent: '#777bb4', delay: '-4.9s', duration: '8s', float: '12s', opacity: 0.42 },
+  { language: 'Next.js', code: 'export default async function Product() {}', left: '31%', top: '37%', width: '27rem', rotate: '-0.7deg', accent: '#64748b', delay: '-6.2s', duration: '8.8s', float: '10s', opacity: 0.34 },
+  { language: 'Rust', code: 'let result = build_safe_and_fast()?;', left: '81%', top: '44%', width: '23rem', rotate: '1.8deg', accent: '#ce422b', delay: '-2s', duration: '7.4s', float: '13s', opacity: 0.4 },
+  { language: 'Node.js', code: 'await api.listen(process.env.PORT);', left: '54%', top: '51%', width: '23rem', rotate: '1.2deg', accent: '#5fa04e', delay: '-5.1s', duration: '7.9s', float: '9s', opacity: 0.34 },
+  { language: 'NestJS', code: '@Get("insights") findAll() { return data; }', left: '7%', top: '61%', width: '26rem', rotate: '0.8deg', accent: '#e0234e', delay: '-3.1s', duration: '8.5s', float: '11s', opacity: 0.4 },
+  { language: 'PostgreSQL', code: 'SELECT value FROM products WHERE live = TRUE;', left: '71%', top: '64%', width: '28rem', rotate: '-1.1deg', accent: '#4169e1', delay: '-6.6s', duration: '9s', float: '12s', opacity: 0.42 },
+  { language: 'MySQL', code: 'CREATE INDEX fast_results ON projects(status);', left: '34%', top: '70%', width: '27rem', rotate: '1deg', accent: '#4479a1', delay: '-1.8s', duration: '8.4s', float: '10s', opacity: 0.36 },
+  { language: 'MongoDB', code: 'db.products.find({ scalable: true });', left: '-3%', top: '81%', width: '24rem', rotate: '-1deg', accent: '#47a248', delay: '-4.1s', duration: '7.6s', float: '13s', opacity: 0.38 },
+  { language: 'Tailwind CSS', code: 'className="grid gap-6 md:grid-cols-2"', left: '77%', top: '83%', width: '27rem', rotate: '1.1deg', accent: '#06b6d4', delay: '-5.5s', duration: '8.1s', float: '9s', opacity: 0.4 },
+  { language: 'Bootstrap', code: '<div class="container-fluid responsive">', left: '21%', top: '87%', width: '25rem', rotate: '-0.8deg', accent: '#7952b3', delay: '-2.4s', duration: '7.7s', float: '11s', opacity: 0.34 },
+  { language: 'Swagger', code: '@ApiResponse({ status: 200, type: Product })', left: '54%', top: '88%', width: '28rem', rotate: '0.8deg', accent: '#65a30d', delay: '-6.9s', duration: '9.2s', float: '12s', opacity: 0.38 },
+];
+
 export function PortfolioPage() {
   const headerRef = useRef<HTMLElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -45,8 +86,13 @@ export function PortfolioPage() {
   const [showLanding, setShowLanding] = useState(true);
 
   const filteredProjects = useMemo(() => {
-    if (activeFilter === 'All') return projects;
-    return projects.filter((project) => project.category === activeFilter);
+    const matchingProjects = activeFilter === 'All'
+      ? projects
+      : projects.filter((project) => project.category === activeFilter);
+
+    return [...matchingProjects].sort(
+      (firstProject, secondProject) => Number(Boolean(secondProject.previewImage)) - Number(Boolean(firstProject.previewImage))
+    );
   }, [activeFilter]);
 
   useEffect(() => {
@@ -98,7 +144,7 @@ export function PortfolioPage() {
   }, []);
 
   return (
-    <div className="relative overflow-hidden">
+    <div className="relative isolate overflow-hidden">
       <AnimatePresence>
         {showLanding && (
           <motion.section
@@ -144,8 +190,8 @@ export function PortfolioPage() {
         className="pointer-events-none fixed left-0 top-0 z-10 hidden h-40 w-40 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/20 blur-3xl transition-transform duration-150 ease-out md:block"
         style={{ transform: `translate(${cursorPosition.x - 80}px, ${cursorPosition.y - 80}px)` }}
       />
-      <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[900px] bg-hero-grid bg-hero-grid opacity-90" />
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_right,rgba(37,99,235,0.18),transparent_24%),radial-gradient(circle_at_20%_20%,rgba(14,165,233,0.12),transparent_22%),linear-gradient(180deg,rgba(255,255,255,0.02),transparent_50%)] dark:bg-[radial-gradient(circle_at_top_right,rgba(96,165,250,0.24),transparent_24%),radial-gradient(circle_at_20%_20%,rgba(34,211,238,0.12),transparent_22%),linear-gradient(180deg,rgba(255,255,255,0.03),transparent_50%)]" />
+      <div className="pointer-events-none absolute inset-0 -z-20 bg-[radial-gradient(circle_at_top_right,rgba(37,99,235,0.18),transparent_24%),radial-gradient(circle_at_20%_20%,rgba(14,165,233,0.12),transparent_22%),linear-gradient(180deg,rgba(255,255,255,0.02),transparent_50%)] dark:bg-[radial-gradient(circle_at_top_right,rgba(96,165,250,0.24),transparent_24%),radial-gradient(circle_at_20%_20%,rgba(34,211,238,0.12),transparent_22%),linear-gradient(180deg,rgba(255,255,255,0.03),transparent_50%)]" />
+      <CodeWritingBackground />
 
       <header ref={headerRef} className="fixed inset-x-0 top-0 z-50 border-b border-border/60 bg-bg/70 backdrop-blur-2xl" style={{ paddingTop: 'env(safe-area-inset-top)' }}>
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 sm:py-4 lg:px-8">
@@ -258,7 +304,7 @@ export function PortfolioPage() {
         )}
       </AnimatePresence>
 
-      <main id="top" className="pt-[calc(var(--site-header-height,5rem)+0.5rem)]">
+      <main id="top" className="relative z-10 pt-[calc(var(--site-header-height,5rem)+0.5rem)]">
         <section className="mx-auto grid max-w-7xl gap-12 px-4 pb-16 pt-10 sm:px-6 sm:pb-20 sm:pt-14 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16 lg:px-8 lg:pb-28 lg:pt-20">
           <div className="flex flex-col justify-center">
             <motion.span initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-5 inline-flex w-fit items-center gap-2 rounded-full border border-border bg-surface/80 px-4 py-2 text-xs uppercase tracking-[0.18em] text-muted shadow-soft backdrop-blur sm:text-sm">
@@ -377,13 +423,29 @@ export function PortfolioPage() {
             <p className="text-sm font-semibold uppercase tracking-[0.22em] text-primary">Skills & Tools</p>
             <h2 className="mt-4 text-3xl font-bold sm:text-4xl">Technology stack and practical strengths used to deliver results.</h2>
           </div>
-          <div className="interactive-card rounded-[2rem] border border-border bg-surface/90 p-6 shadow-soft sm:p-8">
-            <div className="flex flex-wrap gap-3">
-              {skills.map((skill) => (
-                <span key={skill} className="rounded-full border border-border bg-bg/80 px-4 py-2 text-sm font-medium text-text transition duration-300 hover:border-primary/40 hover:bg-primary/5">
-                  {skill}
-                </span>
-              ))}
+          <div className="interactive-card rounded-[2rem] border border-border bg-surface/90 py-7 shadow-soft sm:py-9">
+            <div className="technology-marquee" aria-label="Technologies and programming languages">
+              <div className="technology-marquee-track">
+                {[...technologyLogos, ...technologyLogos].map((technology, index) => {
+                  const isDuplicate = index >= technologyLogos.length;
+
+                  return (
+                    <div
+                      key={`${technology.name}-${index}`}
+                      className="technology-logo-card"
+                      aria-hidden={isDuplicate ? 'true' : undefined}
+                    >
+                      <Image
+                        src={technology.src}
+                        alt={isDuplicate ? '' : technology.name}
+                        width={52}
+                        height={52}
+                        className="h-11 w-11 object-contain sm:h-12 sm:w-12"
+                      />
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </section>
@@ -414,33 +476,52 @@ export function PortfolioPage() {
           </div>
           <div className="grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
             {filteredProjects.map((project) => (
-              <div key={project.title} className="interactive-card rounded-[1.85rem] border border-border bg-surface/90 p-6 shadow-soft sm:p-7">
-                <div className="inline-flex rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-primary">
-                  {project.category}
+              <article key={project.title} className="interactive-card group flex h-full flex-col rounded-[1.85rem] border border-border bg-surface/90 shadow-soft">
+                {project.previewImage ? (
+                  <div className="relative aspect-[16/10] overflow-hidden rounded-t-[1.8rem] border-b border-border bg-bg">
+                    <Image
+                      src={project.previewImage}
+                      alt={project.previewAlt}
+                      fill
+                      sizes="(min-width: 1280px) 27rem, (min-width: 1024px) 50vw, 100vw"
+                      className="object-cover object-top transition duration-500 group-hover:scale-[1.02]"
+                    />
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/35 via-transparent to-transparent" />
+                    <div className="pointer-events-none absolute bottom-3 left-3 inline-flex items-center gap-2 rounded-full border border-white/25 bg-slate-950/70 px-3 py-1.5 text-xs font-semibold text-white shadow-lg backdrop-blur-md">
+                      <span className="h-2 w-2 rounded-full bg-emerald-400" aria-hidden="true" />
+                      Project preview
+                    </div>
+                  </div>
+                ) : null}
+                <div className="flex flex-1 flex-col p-6 sm:p-7">
+                  <div className="inline-flex w-fit rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+                    {project.category}
+                  </div>
+                  <h3 className="mt-5 text-xl font-semibold">{project.title}</h3>
+                  <p className="mt-4 text-sm leading-7 text-muted">{project.description}</p>
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {project.tech.map((tag) => (
+                      <span key={tag} className="rounded-full border border-border bg-bg/80 px-3 py-1 text-xs font-medium text-muted">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="mt-auto flex flex-col gap-3 pt-6 text-sm font-medium sm:flex-row sm:items-center sm:gap-4">
+                    <a href="#contact" className="inline-flex items-center gap-2 text-primary">Discuss Project <ArrowRight className="h-4 w-4" /></a>
+                    {project.demoUrl ? (
+                      <a
+                        href={project.demoUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label={`Visit ${project.title} live project`}
+                        className="inline-flex items-center gap-2 text-muted transition hover:text-text"
+                      >
+                        Visit live project <ExternalLink className="h-4 w-4" />
+                      </a>
+                    ) : null}
+                  </div>
                 </div>
-                <h3 className="mt-5 text-xl font-semibold">{project.title}</h3>
-                <p className="mt-4 text-sm leading-7 text-muted">{project.description}</p>
-                <div className="mt-5 flex flex-wrap gap-2">
-                  {project.tech.map((tag) => (
-                    <span key={tag} className="rounded-full border border-border bg-bg/80 px-3 py-1 text-xs font-medium text-muted">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                <div className="mt-6 flex flex-col gap-3 text-sm font-medium sm:flex-row sm:items-center sm:gap-4">
-                  <a href="#contact" className="inline-flex items-center gap-2 text-primary">Discuss Project <ArrowRight className="h-4 w-4" /></a>
-                  {project.demoUrl ? (
-                    <a
-                      href={project.demoUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex items-center gap-2 text-muted"
-                    >
-                      Demo Link <ExternalLink className="h-4 w-4" />
-                    </a>
-                  ) : null}
-                </div>
-              </div>
+              </article>
             ))}
           </div>
         </section>
@@ -511,6 +592,45 @@ export function PortfolioPage() {
           <p className="max-w-2xl">Copyright © 2026 Mudathir Rajab. All rights reserved.</p>
         </div>
       </footer>
+    </div>
+  );
+}
+
+function CodeWritingBackground() {
+  return (
+    <div className="hero-code-background" aria-hidden="true">
+      <div className="hero-code-ambient hero-code-ambient-one" />
+      <div className="hero-code-ambient hero-code-ambient-two" />
+      {codeSnippets.map((snippet, index) => (
+        <div
+          key={snippet.language}
+          className="hero-code-snippet"
+          style={{
+            '--snippet-left': snippet.left,
+            '--snippet-top': snippet.top,
+            '--snippet-width': snippet.width,
+            '--snippet-rotate': snippet.rotate,
+            '--snippet-accent': snippet.accent,
+            '--snippet-opacity': snippet.opacity,
+            '--code-width': `${snippet.code.length}ch`,
+            '--code-delay': snippet.delay,
+            '--code-duration': snippet.duration,
+            '--float-duration': snippet.float,
+            '--float-delay': snippet.delay,
+          } as CSSProperties}
+        >
+          <div className="hero-code-toolbar">
+            <span />
+            <span />
+            <span />
+            <span className="hero-code-language">{snippet.language}</span>
+          </div>
+          <div className="hero-code-row">
+            <span className="hero-code-index">{String(index + 1).padStart(2, '0')}</span>
+            <code className="hero-code-line">{snippet.code}</code>
+          </div>
+        </div>
+      ))}
     </div>
   );
 }
