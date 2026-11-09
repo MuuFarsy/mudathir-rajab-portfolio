@@ -161,11 +161,11 @@ export const projects = [
     category: 'Tour Experience',
     title: 'Tour Booking Experience',
     description:
-      'A polished tour and service presentation with booking flows, interactive UI elements, responsive modals, and stronger conversion-focused design.',
+      'A polished Zanzibar travel and marketplace experience that brings tours, transport, rentals, local products, and direct booking journeys into one responsive platform.',
     tech: ['PHP', 'Bootstrap', 'PHPMailer', 'UX Design'],
-    demoUrl: '',
-    previewImage: '',
-    previewAlt: '',
+    demoUrl: 'https://hushoptz.com/en',
+    previewImage: '/projects/hushop-tz.png',
+    previewAlt: 'Hushop TZ homepage showing its Zanzibar tour and marketplace experience',
   },
   {
     category: 'Brand Identity',
